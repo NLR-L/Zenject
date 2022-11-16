@@ -234,13 +234,9 @@ namespace Zenject
                     binding.Context = this;
                 }
             }
-
-            // We'd prefer to use GameObject.FindObjectsOfType<ZenjectBinding>() here
-            // instead but that doesn't find inactive gameobjects
-            // TODO: Consider changing this
-            // Maybe ZenjectBinding could add itself to a registry class on Awake/OnEnable
-            // then we could avoid calling the slow Resources.FindObjectsOfTypeAll here
-            foreach (var binding in Resources.FindObjectsOfTypeAll<ZenjectBinding>())
+            
+            // FindObjectsOfType has a parameter to include inactive objects
+            foreach (var binding in GameObject.FindObjectsOfType<ZenjectBinding>(true))
             {
                 if (binding == null)
                 {
